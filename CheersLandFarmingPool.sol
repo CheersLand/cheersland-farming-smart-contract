@@ -22,7 +22,7 @@ contract CheersLpPool is Auth {
     uint256 public constant DURATION = 90 days;
     uint256 public punishTime = 7 days;
     uint8 public feeRatio = 10;
-    uint256 public miningOutput = 1157407407407407;
+    uint256 public miningOutput = 34722222222222222;
     uint256 public startTime;
     uint256 public endTime;
     uint256 public lastUpdateTime;
@@ -107,7 +107,7 @@ contract CheersLpPool is Auth {
         for (uint256 i = 0; i < associationPool.length; i ++) {
             if (power[msg.sender] >= IFundraising(associationPool[i]).getThreshold()) {
                 uint8 rank = IFundraising(associationPool[i]).isWhiteList(msg.sender);
-                if (rank == 0) {
+                if (rank == 0 || rank == 3) {
                     IFundraising(associationPool[i]).setWhiteList(msg.sender, 1);
                 }
             }
@@ -128,8 +128,8 @@ contract CheersLpPool is Auth {
         for (uint256 i = 0; i < associationPool.length; i ++) {
             if (power[msg.sender] < IFundraising(associationPool[i]).getThreshold()) {
                 uint8 rank = IFundraising(associationPool[i]).isWhiteList(msg.sender);
-                if (rank != 2) {
-                    IFundraising(associationPool[i]).setWhiteList(msg.sender, 0);
+                if (rank == 1) {
+                    IFundraising(associationPool[i]).setWhiteList(msg.sender, 3);
                 }
             }
         }
